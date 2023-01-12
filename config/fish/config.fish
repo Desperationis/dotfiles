@@ -1,3 +1,5 @@
+fish_config theme choose fish\ default
+
 function fish_greeting -d "Greeting message on shell session start up"
 
 	echo ""
@@ -7,14 +9,14 @@ function fish_greeting -d "Greeting message on shell session start up"
 	echo  "     /\\  .-\"\"\"-.  /\\      "		(show_cpu_cores)
 	echo  "    //\\\\/  ,,,  \\//\\\\     "		(show_cpu_processors)
 	echo  "    |/\\| ,;;;;;, |/\\|     "		
-	echo  "    //\\\\\\;-\"\"\"-;///\\\\     "	(show_ip)
-	echo  "   //  \\/   .   \\/  \\\\    "		(show_gateway)
-	echo  "  (| ,-_| \\ | / |_-, |)   "			(show_nc_count)
-	echo  "    //`__\\.-.-./__`\\\\     "
+	echo  "    //\\\\\\;-\"\"\"-;///\\\\     "	(show_wifi_ssid)
+	echo  "   //  \\/   .   \\/  \\\\    "		(show_ip)
+	echo  "  (| ,-_| \\ | / |_-, |)   "			(show_gateway)
+	echo  "    //`__\\.-.-./__`\\\\     "		(show_nc_count)
 	echo  "   // /.-(() ())-.\\ \\\\    "
-	echo  "  (\\ |)   '---'   (| /)   "
-	echo  "   ` (|           |) `    "
-	echo  "     \\)           (/      "
+	echo  "  (\\ |)   '---'   (| /)   "			(show_hostname)
+	echo  "   ` (|           |) `    "			(show_bluetooth)
+	echo  "     \\)           (/      "			(show_timezone)
 	echo ""
 end
 
@@ -138,54 +140,119 @@ function show_cpu_name -d "Prints out CPU name"
 	echo -en "$cpu_name"
 end
 
+function show_hostname -d "Prints out hostname"
+    set --local os_type (uname -s)
+    set --local hname "N/A"
+
+	if test "$os_type" = "Linux"
+        set hname (hostname)
+    end
+
+    set_color brblack
+    echo -en "Hostname: "
+    set_color normal
+    echo -en "$hname"
+end
 
 function show_nc_count -d "Prints out # of network devices"
     set --local os_type (uname -s)
-    set --local nc_count ""
+    set --local nc_count "N/A"
 
 	if test "$os_type" = "Linux"
         set nc_count (ip -o link show | wc -l)
     end
 
     set_color brblack
-    echo -en "Network Devices:"
+    echo -en "Network Devices: "
     set_color normal
     echo -en "$nc_count"
 end
 
 function show_ip -d "Print out IP of network card"
     set --local os_type (uname -s)
-    set --local ip ""
+    set --local ip "N/A"
 
 	if test "$os_type" = "Linux"
-        set ip (ip address show | grep -E "inet .* brd .* dynamic" | cut -d " " -f6)
+		if iwgetid -r > /dev/null 2>&1
+			set ip (ip address show | grep -E "inet .* brd .* dynamic" | cut -d " " -f6)
+		end
 	else if test "$os_type" = "Darwin"
         set ip (ifconfig | grep -v "127.0.0.1" | grep "inet " | head -1 | cut -d " " -f2)
     end
 
     set_color brblack
-    echo -en "IP:"
+    echo -en "IP: "
     set_color normal
     echo -en "$ip"
 end
 
 function show_gateway -d "Print out default gateway of network card"
     set --local os_type (uname -s)
-    set --local gw ""
+    set --local gw "N/A"
 
 	if test "$os_type" = "Linux"
-        set gw (ip route | grep default | cut -d " " -f3)
+		if iwgetid -r > /dev/null 2>&1
+			set gw (ip route | grep default | cut -d " " -f3)
+		end
 	else if test "$os_type" = "Darwin"
         set gw (netstat -nr | grep -E "default.*UGSc" | cut -d " " -f13)
     end
 
     set_color brblack
-    echo -en "Gateway:"
+    echo -en "Gateway: "
     set_color normal
     echo -en "$gw"
 end
 
+function show_wifi_ssid -d "Print out Wifi SSID"
+    set --local os_type (uname -s)
+    set --local w_status "N/A"
 
+	if test "$os_type" = "Linux"
+		if iwgetid -r > /dev/null 2>&1
+			set w_status (iwgetid -r )
+		else
+			set w_status "Not connected"
+		end
+    end
+
+    set_color brblack
+    echo -en "Wifi: "
+    set_color normal
+    echo -en "$w_status"
+end
+
+function show_bluetooth -d "Print out bluetooth status"
+    set --local os_type (uname -s)
+    set --local b_status "N/A"
+
+	if test "$os_type" = "Linux"
+		if test $(hcitool dev | wc -l) -gt 1
+			set b_status "ON"
+		else
+			set b_status "OFF"
+		end
+    end
+
+    set_color brblack
+    echo -en "Bluetooth: "
+    set_color normal
+    echo -en "$b_status"
+end
+
+function show_timezone -d "Show local timezone"
+    set --local os_type (uname -s)
+    set --local timezone "N/A"
+
+	if test "$os_type" = "Linux"
+		set timezone (date +"%Z")
+    end
+
+    set_color brblack
+    echo -en "Timezone: "
+    set_color normal
+    echo -en "$timezone"
+end
 
 
 if status is-interactive
