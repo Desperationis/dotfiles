@@ -25,7 +25,7 @@ function fish_prompt
   printf ' in '
 
   set_color brgreen
-  printf '%s ' (prompt_pwd)
+  printf '%s ' (prompt_pwd --full-length-dirs=2)
   set_color brblue
   printf '%s' (tbytes)
   set_color normal
