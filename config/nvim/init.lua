@@ -206,7 +206,7 @@ require('gitsigns').setup{
   end
 }
 
--- Configure sumneko_lua to have nvim lua stuff
+-- Configure lua_ls to have nvim lua stuff
 require("neodev").setup()
 
 
@@ -222,7 +222,7 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 local servers = {
    clangd = {},
    pyright = {},
-   sumneko_lua = {
+   lua_ls = {
 		Lua = {
 			workspace = { checkThirdParty = false}, -- Remove annoying prompt for neodev
 			telemetry = { enable = false }
@@ -322,7 +322,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'lua', 'python', 'vim', 'arduino', 'bash', 'cmake', 'comment', 'css', 'gitcommit', 'git_rebase', 'html', 'json', 'latex', 'markdown', 'dockerfile', 'java', 'fish'},
+  ensure_installed = { 'c', 'cmake', 'cpp', 'lua', 'python', 'vim', 'arduino', 'bash', 'comment', 'css', 'gitcommit', 'git_rebase', 'html', 'json', 'latex', 'markdown', 'dockerfile', 'java', 'fish'},
 
   highlight = { enable = true },
   indent = { enable = true, disable = { 'python' } },
