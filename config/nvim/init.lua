@@ -44,8 +44,9 @@ require('packer').startup(function()
 		after = 'nvim-treesitter',
 	}
 
+	use { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} }
+
 	use 'nvim-lualine/lualine.nvim'
-	use 'lukas-reineke/indent-blankline.nvim'
 	use 'numToStr/Comment.nvim'
 
 	use 'preservim/nerdtree'
@@ -149,12 +150,6 @@ vim.cmd [[ colorscheme catppuccin ]]
 
 require('Comment').setup()
 
-require('indent_blankline').setup {
-	char = '┊',
-	show_trailing_blankline_indent = false,
-	filetype_exclude = {}, -- Allows blank files to work too
-	filetype = {},
-}
 
 require('lualine').setup {
   options = {
