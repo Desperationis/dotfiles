@@ -433,3 +433,5 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
+
+vim.api.nvim_set_keymap('n', '<C-a>', [[:!npx prettier -w %<CR>]], { noremap = true, silent = true })
