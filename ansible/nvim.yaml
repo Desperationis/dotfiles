@@ -19,8 +19,8 @@
     - debug: var=aptout
 
     - name: "Install n"
-      become: true
       register: aptout2
+      become: true
       ansible.builtin.shell:
         cmd: "sudo npm install n -g"
     - debug: var=aptout2
