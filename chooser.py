@@ -12,14 +12,14 @@ if geteuid() == 0:
 ansibleFolder = "./ansible/"
 
 playbooks = [f for f in listdir(ansibleFolder) if isfile(join(ansibleFolder, f))]
-playbooksStripped = [ f.split(".")[0] for f in playbooks ]
+playbooksStripped = [f.split(".")[0] for f in playbooks]
 
 menu = TerminalMenu(
     playbooksStripped,
     multi_select=True,
     show_multi_select_hint=True,
     multi_select_select_on_accept=False,
-    multi_select_empty_ok=True
+    multi_select_empty_ok=True,
 )
 indices = menu.show()
 
