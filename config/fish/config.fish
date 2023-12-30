@@ -328,5 +328,6 @@ if status is-interactive
 		fish_add_path ~/bin
 		fish_add_path ~/bin/gcc-arm-none-eabi-8-2019-q3-update/bin
 	end
-    # Commands to run in interactive sessions can go here
+
+	[ -z "$TMUX" ] && exec tmux
 end
