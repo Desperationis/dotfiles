@@ -3,6 +3,7 @@ from simple_term_menu import TerminalMenu
 from os import listdir, system, geteuid
 from os.path import isfile, join
 import sys
+import subprocess
 
 if geteuid() == 0:
     print("You cannot be root.")
@@ -17,6 +18,8 @@ menu = TerminalMenu(
     playbooksStripped,
     multi_select=True,
     show_multi_select_hint=True,
+    multi_select_select_on_accept=False,
+    multi_select_empty_ok=True
 )
 indices = menu.show()
 
@@ -27,7 +30,9 @@ for i in indices:
     file = join(ansibleFolder, playbooks[i])
     root = "become: true" in open(file, "r").read()
 
-    if root:
-        system(f"ansible-playbook {file} --ask-become-pass")
-    else:
-        system(f"ansible-playbook {file}")
+    arg = "--ask-become-pass" if root else ""
+
+    p = subprocess.Popen(f"ansible-playbook {file} {arg}", shell=True)
+    p.wait()
+    if p.returncode != 0:
+        sys.exit(1)
