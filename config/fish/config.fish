@@ -329,5 +329,5 @@ if status is-interactive
 		fish_add_path ~/bin/gcc-arm-none-eabi-8-2019-q3-update/bin
 	end
 
-	[ -z "$TMUX" ] && exec tmux
+	#[ -z "$TMUX" ] && exec tmux
 end
