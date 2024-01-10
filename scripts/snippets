@@ -2,15 +2,15 @@
 
 if ! [[ -e ~/bin/snippet-box ]]
 then
-	sudo docker rmi snippet-box
+	docker rmi snippet-box
 	git clone https://github.com/pawelmalak/snippet-box ~/bin/snippet-box
 	cd ~/bin/snippet-box
-	sudo docker build -t snippet-box .
+	docker build -t snippet-box .
 fi
 
 if which docker > /dev/null 2>&1
 then
-	sudo docker run --rm -p 5000:5000 -v ~/.local/share/snippet-box:/app/data snippet-box
+	docker run --rm -p 5000:5000 -v ~/.local/share/snippet-box:/app/data snippet-box
 else
 	echo "Docker is not installed."
 fi
