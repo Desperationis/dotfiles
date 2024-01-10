@@ -6,22 +6,8 @@
     user_home: "{{ lookup('env', 'HOME') | default(lookup('env', 'USERPROFILE')) }}"
     config_folder: "{{ playbook_dir }}/../config/"
   tasks:
-    - debug: var=user_home
-      
-    - name: "Create parent .config folder"
-      ansible.builtin.shell:
-        cmd: "mkdir -p {{user_home}}/.config/tmux"
-      register: aptout
-    - debug: var=aptout
-
-    - name: "Move tmux.conf to ~/.config/"
-      ansible.builtin.shell:
-        cmd: "cp {{config_folder}}/tmux/tmux.conf {{user_home}}/.config/tmux/"
-      register: aptout2
-    - debug: var=aptout2
-
-    - name: "Move tmux.conf.local to ~/.config/"
-      ansible.builtin.shell:
-        cmd: "cp {{config_folder}}/tmux/tmux.conf.local {{user_home}}/.config/tmux/"
-      register: aptout2
-    - debug: var=aptout2
+    - name: "Copy configuration"
+      synchronize:
+        src: "{{ config_folder }}/tmux"
+        dest: "{{ user_home }}/.config/"
+        archive: yes

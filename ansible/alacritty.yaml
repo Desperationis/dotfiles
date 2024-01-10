@@ -1,4 +1,4 @@
-- name: "Removes default folders in ~/"
+- name: "Install alacritty configuration files"
   hosts: localhost
   connection: local
   gather_facts: false
@@ -8,7 +8,6 @@
   tasks:
     - name: "Copy configuration"
       synchronize:
-        src: "{{ config_folder }}/user-dirs.conf"
+        src: "{{ config_folder }}/alacritty"
         dest: "{{ user_home }}/.config/"
         archive: yes
-
