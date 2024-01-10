@@ -1,5 +1,20 @@
 #!/bin/bash
 
+if [ "$1" == "backup" ]
+then
+	if ! [[ -e ~/.local/share/snippet-box ]]
+	then
+		echo "No data found."
+		exit 1
+	fi
+
+	cp ~/.local/share/snippet-box/db.sqlite3 .
+	tar -czvf snippets_data.tar.gz db.sqlite3
+	rm db.sqlite3
+
+	exit 0
+fi
+
 if ! [[ -e ~/bin/snippet-box ]]
 then
 	docker rmi snippet-box
