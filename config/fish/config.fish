@@ -322,11 +322,9 @@ function show_timezone -d "Show local timezone"
     echo -en "$timezone"
 end
 
-
 if status is-interactive
 	if test -d ~/bin 
 		fish_add_path ~/bin
-		fish_add_path ~/bin/gcc-arm-none-eabi-8-2019-q3-update/bin
 	end
 
 	#[ -z "$TMUX" ] && exec tmux
