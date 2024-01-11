@@ -327,5 +327,9 @@ if status is-interactive
 		fish_add_path ~/bin
 	end
 
+	if which zoxide > /dev/null 2>&1
+		zoxide init fish | source
+	end
+
 	#[ -z "$TMUX" ] && exec tmux
 end
