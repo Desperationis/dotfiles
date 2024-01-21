@@ -331,5 +331,9 @@ if status is-interactive
 		zoxide init fish | source
 	end
 
+	alias rm 'rmtrash'
+	alias rmdir 'rmdirtrash'
+	alias sudo 'sudo '
+
 	#[ -z "$TMUX" ] && exec tmux
 end
